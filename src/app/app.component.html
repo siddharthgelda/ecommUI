@@ -1,0 +1,69 @@
+<!-- src/app/app.component.html -->
+<div class="app-shell" (click)="closeDropdown()">
+
+  <!-- ── NAVBAR ─────────────────────────────────────────────── -->
+  <nav class="navbar" (click)="$event.stopPropagation()">
+    <div class="container nav-inner">
+
+      <!-- Logo -->
+      <a class="nav-logo" routerLink="/">Shop<span>PBP</span></a>
+
+      <!-- Search -->
+      <div class="nav-search">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          placeholder="Search products…"
+          (keydown.enter)="navigate('/products')"
+        />
+      </div>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <a class="nav-btn" routerLink="/" routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact:true}">🏠 Home</a>
+        <a class="nav-btn" routerLink="/products" routerLinkActive="active">📦 Products</a>
+        <a class="nav-btn cart-btn" routerLink="/cart" routerLinkActive="active">
+          🛒 Cart
+          <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        </a>
+
+        <ng-container *ngIf="!isLoggedIn">
+          <a class="btn btn-primary btn-sm" routerLink="/auth/login">Sign In</a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+          <a class="nav-btn" routerLink="/orders" routerLinkActive="active">📋 Orders</a>
+          <!-- FIX: use document-level closeDropdown instead of non-existent (clickOutside) -->
+          <div class="nav-user" (click)="toggleDropdown()">
+            <div class="nav-avatar">{{ userName[0]?.toUpperCase() }}</div>
+            <span>{{ userName }}</span>
+            <span>▾</span>
+            <div class="user-dropdown" [class.open]="showDropdown">
+              <a class="dropdown-item" routerLink="/profile"
+                 (click)="showDropdown=false">👤 My Profile</a>
+              <a class="dropdown-item" routerLink="/orders"
+                 (click)="showDropdown=false">📋 My Orders</a>
+              <div class="dropdown-item danger" (click)="logout()">🚪 Sign Out</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ───────────────────────────────────────── -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">ShopPBP</div>
+      <div>© 2026 ShopPBP — Built with Spring Boot + Angular</div>
+    </div>
+  </footer>
+
+</div>
