@@ -148,7 +148,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 //   minPrice:          number | undefined;
 //   maxPrice:          number | undefined;
   minPrice: number = 0;
-    maxPrice: number = 0;
+    maxPrice: number = 100000;
   sortBy             = '';
 
   private destroy$ = new Subject<void>();
@@ -213,7 +213,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     this.selectedCategory = null;
     this.minPrice         = 0;
-    this.maxPrice         = 0;
+    this.maxPrice         = 10000;
     this.sortBy           = '';
     this.currentPage      = 0;
     this.loadProducts();
