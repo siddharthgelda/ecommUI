@@ -1,0 +1,25 @@
+.auth-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-box {
+  width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.auth-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-divider {
+  text-align: center;
+  margin: 16px 0;
+  color: var(--text-3);
+}

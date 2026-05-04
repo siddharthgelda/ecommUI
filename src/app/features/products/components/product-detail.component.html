@@ -1,0 +1,247 @@
+<!-- src/app/features/products/components/product-detail.component.html -->
+
+<!-- ── Loading ─────────────────────────────────────────────────── -->
+<div class="loading-wrap" *ngIf="loading">
+  <div class="spinner"></div>
+  <span>Loading product…</span>
+</div>
+
+<!-- ── Error / Not Found ────────────────────────────────────────── -->
+<div class="loading-wrap" *ngIf="!loading && !product">
+  <p style="font-size:48px">😕</p>
+  <p style="color:var(--error);font-size:16px;margin-bottom:16px">
+    Product not found or unavailable.
+  </p>
+  <button class="btn btn-outline" routerLink="/products">
+    ← Back to Products
+  </button>
+</div>
+
+<!-- ── Product Detail ───────────────────────────────────────────── -->
+<div class="container page" *ngIf="!loading && product">
+
+  <!-- Breadcrumb -->
+  <!-- NULL CHECK: product?.name falls back to 'Product' -->
+  <div class="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <a routerLink="/products">Products</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>{{ product?.name ?? 'Product' }}</span>
+  </div>
+
+  <div class="product-detail-grid">
+
+    <!-- ── Gallery ──────────────────────────────────────────────── -->
+    <div class="product-gallery">
+      <div class="product-main-img">
+
+        <!-- NULL CHECK: primaryImageUrl getter handles null/empty imageUrls -->
+        <img
+          *ngIf="primaryImageUrl"
+          [src]="primaryImageUrl"
+          [alt]="product?.name ?? 'Product image'"
+          class="product-img"
+        />
+
+        <!-- Fallback emoji when no image available -->
+        <span
+          *ngIf="!primaryImageUrl"
+          style="font-size:80px"
+          [attr.aria-label]="categoryName">
+          {{ categoryEmoji }}
+        </span>
+      </div>
+
+      <!-- Thumbnails — NULL CHECK: only shown when 2+ images exist -->
+      <div class="product-thumb-row" *ngIf="hasMultipleImages">
+        <div
+          class="product-thumb"
+          *ngFor="let img of product?.imageUrls; let i = index"
+          [class.active]="selectedImageIndex === i"
+          (click)="selectImage(i)">
+          <!-- NULL CHECK: img itself may be null in the array -->
+          <img *ngIf="img" [src]="img" [alt]="'View ' + (i + 1)"/>
+          <span *ngIf="!img">📷</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product Info ──────────────────────────────────────────── -->
+    <div class="product-detail-info">
+
+      <!-- Category — NULL CHECK: product?.category?.name chain -->
+      <div class="product-detail-cat">
+        {{ product?.category?.name ?? 'Uncategorised' }}
+      </div>
+
+      <!-- Name — NULL CHECK -->
+      <h1 class="product-detail-name">
+        {{ product?.name ?? 'Unnamed Product' }}
+      </h1>
+
+      <!-- SKU — NULL CHECK: only show if sku exists -->
+      <div
+        style="font-size:12px;color:var(--text-3);
+               font-family:var(--font-mono);margin-bottom:16px"
+        *ngIf="product?.sku">
+        SKU: {{ product?.sku }}
+      </div>
+
+      <!-- ── Rating Row ─────────────────────────────────────────── -->
+      <div class="product-detail-rating">
+
+        <!-- Stars — NULL CHECK: starDisplay getter handles null/NaN rating -->
+        <span class="stars" style="font-size:16px">
+          {{ starDisplay }}
+        </span>
+
+        <!-- Numeric rating — only when valid positive number -->
+        <strong *ngIf="hasRating">
+          {{ product?.averageRating | number:'1.1-1' }}
+        </strong>
+        <strong *ngIf="!hasRating" style="color:var(--text-3)">
+          No ratings yet
+        </strong>
+
+        <!-- Review count — NULL CHECK: only shown when > 0 -->
+        <span *ngIf="hasReviews" style="color:var(--text-3)">
+          ({{ product?.reviewCount }} {{ reviewLabel }})
+        </span>
+
+        <!-- Stock badge — NULL CHECK: inStock may be null/undefined -->
+        <span
+          class="stock-badge"
+          [class.stock-in]="product?.inStock === true"
+          [class.stock-out]="product?.inStock !== true"
+          style="margin-left:8px">
+
+          <!-- In stock with quantity -->
+          <ng-container *ngIf="product?.inStock === true">
+            ✓ In Stock
+            <!-- NULL CHECK: only show qty when stockQuantity is positive -->
+            <ng-container
+              *ngIf="product?.stockQuantity != null && product!.stockQuantity! > 0">
+              ({{ product?.stockQuantity }} left)
+            </ng-container>
+          </ng-container>
+
+          <!-- Out of stock -->
+          <ng-container *ngIf="product?.inStock !== true">
+            ✗ Out of Stock
+          </ng-container>
+        </span>
+      </div>
+
+      <!-- ── Price Row ──────────────────────────────────────────── -->
+      <div class="product-detail-price-row">
+
+        <!-- Effective price — NULL CHECK: effectivePrice getter handles null -->
+        <span class="product-detail-price">
+          ₹{{ effectivePrice | number:'1.0-0' }}
+        </span>
+
+        <!-- Original price — NULL CHECK: hasDiscount checks all conditions -->
+        <span class="product-detail-original" *ngIf="hasDiscount">
+          ₹{{ product?.price | number:'1.0-0' }}
+        </span>
+
+        <!-- Discount tag — NULL CHECK: hasDiscount required -->
+        <span class="discount-tag" *ngIf="hasDiscount">
+          Save {{ product?.discountPercent }}%
+        </span>
+      </div>
+
+      <!-- ── Description ────────────────────────────────────────── -->
+
+      <!-- NULL CHECK: description?.trim() handles null, undefined, blank -->
+      <p class="product-detail-desc" *ngIf="product?.description?.trim()">
+        {{ product?.description }}
+      </p>
+      <p class="product-detail-desc"
+         *ngIf="!product?.description?.trim()"
+         style="color:var(--text-3);font-style:italic">
+        No description available for this product.
+      </p>
+
+      <!-- ── Quantity Control ───────────────────────────────────── -->
+      <div class="qty-control">
+        <span style="font-size:14px;font-weight:600;color:var(--text-2)">
+          Quantity:
+        </span>
+        <button
+          class="qty-btn"
+          (click)="changeQty(-1)"
+          [disabled]="quantity <= 1">
+          −
+        </button>
+        <span class="qty-val">{{ quantity }}</span>
+        <button
+          class="qty-btn"
+          (click)="changeQty(1)"
+          [disabled]="quantity >= maxQuantity">
+          +
+        </button>
+
+        <!-- Low stock warning — NULL CHECK: isLowStock getter handles null -->
+        <span
+          style="font-size:12px;color:var(--warning);margin-left:8px"
+          *ngIf="isLowStock">
+          ⚠ Only {{ product?.stockQuantity }} left!
+        </span>
+      </div>
+
+      <!-- ── Action Buttons ─────────────────────────────────────── -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+        <button
+          class="btn btn-primary btn-lg"
+          [disabled]="!canAddToCart"
+          (click)="addToCart()">
+          <!-- NULL CHECK: inStock may be null — show appropriate label -->
+          🛒 {{ product?.inStock === true ? 'Add to Cart' : 'Out of Stock' }}
+        </button>
+
+        <button
+          class="btn btn-outline btn-lg"
+          [disabled]="!canAddToCart"
+          (click)="buyNow()">
+          ⚡ Buy Now
+        </button>
+      </div>
+
+      <!-- Shipping info strip -->
+      <div style="padding:16px;background:var(--surface-2);
+                  border-radius:var(--radius-sm);font-size:13px;
+                  color:var(--text-3);margin-bottom:24px">
+        <div style="margin-bottom:6px">✓ Free shipping on orders above ₹500</div>
+        <div style="margin-bottom:6px">✓ 7-day easy returns</div>
+        <div>✓ Secure SSL-encrypted payment</div>
+      </div>
+
+      <!-- ── Attributes ──────────────────────────────────────────── -->
+
+      <!-- NULL CHECK: attrEntries getter handles null/undefined/empty attrs -->
+      <div *ngIf="attrEntries.length > 0">
+        <div style="font-size:14px;font-weight:700;
+                    margin-bottom:12px;color:var(--text-2)">
+          Specifications
+        </div>
+        <div class="product-attrs">
+          <div class="attr-item" *ngFor="let attr of attrEntries">
+            <div class="attr-key">{{ attr.key }}</div>
+            <!-- NULL CHECK: value already resolved to '—' in getter -->
+            <div class="attr-val">{{ attr.value }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No attributes fallback -->
+      <div
+        *ngIf="attrEntries.length === 0"
+        style="font-size:13px;color:var(--text-3)">
+        No additional specifications available.
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common'; // ✅ REQUIRED
 @Component({
   imports: [CommonModule],
   selector: 'app-cart',
+  styleUrls: ['./cart.component.scss'],
   template: `
   <div class="container page">
     <div class="breadcrumb">

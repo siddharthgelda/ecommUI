@@ -1,0 +1,26 @@
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.checkout-section {
+  margin-bottom: 20px;
+}
+
+.payment-opts {
+  display: flex;
+  gap: 10px;
+}
+
+.payment-opt {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.payment-opt.selected {
+  border-color: var(--primary);
+  background: #eff6ff;
+}

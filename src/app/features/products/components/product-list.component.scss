@@ -1,0 +1,27 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  transition: 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.product-price {
+  color: var(--primary);
+  font-weight: 700;
+}

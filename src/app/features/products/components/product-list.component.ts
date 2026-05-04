@@ -4,13 +4,19 @@ import { Router }                       from '@angular/router';
 import { Subject }                      from 'rxjs';
 import { debounceTime, distinctUntilChanged,
          takeUntil }                    from 'rxjs/operators';
-import { ProductService }               from '../../core/services/product.service';
-import { CartService }                  from '../../core/services/cart.service';
+import { ProductService }               from '../../../core/services/product.service';
+import { CartService }                  from '../../../core/services/cart.service';
 import { Category, Product,
          ProductFilter, ProductPage }   from '../../../core/models';
-
+import { FormsModule } from '@angular/forms'; // ✅ ADD THIS
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-product-list',
+   imports: [
+      CommonModule,
+      FormsModule   // ✅ REQUIRED for ngModel
+    ],
+   styleUrls: ['./product-list.component.scss'],
   template: `
   <div class="container page">
 
@@ -139,8 +145,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   totalPages         = 0;
   currentPage        = 0;
   selectedCategory:  number | null = null;
-  minPrice:          number | undefined;
-  maxPrice:          number | undefined;
+//   minPrice:          number | undefined;
+//   maxPrice:          number | undefined;
+  minPrice: number = 0;
+    maxPrice: number = 0;
   sortBy             = '';
 
   private destroy$ = new Subject<void>();
@@ -204,8 +212,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   clearFilters(): void {
     this.selectedCategory = null;
-    this.minPrice         = undefined;
-    this.maxPrice         = undefined;
+    this.minPrice         = 0;
+    this.maxPrice         = 0;
     this.sortBy           = '';
     this.currentPage      = 0;
     this.loadProducts();

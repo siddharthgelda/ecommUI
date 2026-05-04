@@ -17,6 +17,7 @@ import {
 @Component({
   selector: 'app-register',
     imports: [CommonModule, ReactiveFormsModule, RouterModule],
+     styleUrls: ['./auth.component.scss'],
   template: `
   <div class="auth-wrap">
     <div class="auth-box">

@@ -19,6 +19,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  styleUrls: ['./auth.component.scss'],
   template: `
     <div class="auth-wrap">
       <div class="auth-box">

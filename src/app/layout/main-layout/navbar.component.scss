@@ -1,0 +1,30 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+}
+
+nav a {
+  margin-right: 16px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

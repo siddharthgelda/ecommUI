@@ -3,9 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 import { OrderService }      from '../../../core/services/order.service';
 import { OrderSummary }      from '../../../core/models';
-
+import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-order-list',
+  imports: [
+      CommonModule, DatePipe
+    ],
+  styleUrls: ['./orders.component.scss'],
   template: `
   <div class="container page">
     <div class="breadcrumb">
