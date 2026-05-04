@@ -1,9 +1,11 @@
 // src/app/features/home/home/home.component.ts
 import { Component, OnInit }  from '@angular/core';
 import { Router }             from '@angular/router';
-import { ProductService }     from '../../../core/services/product.service';
-import { CartService }        from '../../../core/services/cart.service';
-import { Product, Category }  from '../../../core/models';
+// import { ProductService }     from '../../ore/services/product.service';
+// import { CartService }        from '../../core/services/cart.service';
+import { Product, Category }  from '../../core/models';
+import { ProductService } from '../../core/services/product.service';
+import { CartService } from '../../core/services/cart.service';
 
 import { CommonModule } from '@angular/common';
 @Component({

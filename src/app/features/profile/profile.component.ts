@@ -1,7 +1,7 @@
 // src/app/features/profile/profile/profile.component.ts
 import { Component, OnInit } from '@angular/core';
-import { AuthService }       from '../../../core/services/auth.service';
-import { UserInfo }          from '../../../core/models';
+import { AuthService }       from '../../core/services/auth.service';
+import { UserInfo }          from '../../core/models';
 
 @Component({
   selector: 'app-profile',

@@ -1,8 +1,8 @@
 // src/app/features/orders/orders/components/order-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { OrderService }      from '../../../../core/services/order.service';
-import { OrderSummary }      from '../../../../core/models';
+import { OrderService }      from '../../../core/services/order.service';
+import { OrderSummary }      from '../../../core/models';
 
 @Component({
   selector: 'app-order-list',

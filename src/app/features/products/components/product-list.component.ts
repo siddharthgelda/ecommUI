@@ -4,8 +4,8 @@ import { Router }                       from '@angular/router';
 import { Subject }                      from 'rxjs';
 import { debounceTime, distinctUntilChanged,
          takeUntil }                    from 'rxjs/operators';
-import { ProductService }               from '../../../core/services/product.service';
-import { CartService }                  from '../../../core/services/cart.service';
+import { ProductService }               from '../../core/services/product.service';
+import { CartService }                  from '../../core/services/cart.service';
 import { Category, Product,
          ProductFilter, ProductPage }   from '../../../core/models';
 

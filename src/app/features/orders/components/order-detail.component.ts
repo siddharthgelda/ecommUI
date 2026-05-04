@@ -1,8 +1,8 @@
 // src/app/features/orders/orders/components/order-detail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderService }     from '../../../../core/services/order.service';
-import { Order }            from '../../../../core/models';
+import { OrderService }     from '../../../core/services/order.service';
+import { Order }            from '../../../core/models';
 
 @Component({
   selector: 'app-order-detail',
@@ -20,8 +20,12 @@ import { Order }            from '../../../../core/models';
 
     <ng-container *ngIf="!loading && order">
       <div class="section-header">
-        <h1 class="section-title">Order #{{ order.id.substring(0,8).toUpperCase() }}</h1>
-        <div class="stock-badge stock-in">{{ order.statusLabel }}</div>
+        <h1 class="section-title"><div *ngIf="order as o">
+                                    Order #{{ o.id.substring(0,8).toUpperCase() }}
+                                  </div></h1>
+        <div class="stock-badge stock-in"><div *ngIf="order.statusLabel">
+                                             {{order.statusLabel }}
+                                          </div>
       </div>
 
       <!-- Items -->
